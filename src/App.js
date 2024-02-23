@@ -34,6 +34,7 @@ export default class App extends Component {
     this.delete = this.delete.bind(this);
     this.add = this.add.bind(this);
     this.showMenu = this.showMenu.bind(this);
+    this.getDeed = this.getDeed.bind(this);
   }
 
   setDone(key) {
@@ -61,7 +62,7 @@ export default class App extends Component {
     key = +key;
     return this.state.data.find((current) => current.key === key);
   }
-  
+
   render() {
     return (
       <HashRouter>
@@ -69,8 +70,8 @@ export default class App extends Component {
           <div className="navbar-brand">
             <NavLink to="/" className={
               ({ isActive }) =>
-                'navbar-item is-uppercase' + 
-                  (isActive ? ' is-active' : '')
+                'navbar-item is-uppercase' +
+                (isActive ? ' is-active' : '')
             }>
               Todos
             </NavLink>
@@ -82,7 +83,7 @@ export default class App extends Component {
           </div>
           <div className={this.state.showMenu ? 'navbar-menu is-active' : 'navbar-menu'} onClick={this.showMenu}>
             <div className="navbar-start">
-              <NavLink to="/add" className={({ isActive }) => 
+              <NavLink to="/add" className={({ isActive }) =>
                 'navbar-item' + (isActive ? ' is-active' : '')}>
                 Create Todo
               </NavLink>

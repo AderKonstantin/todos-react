@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 export default function TodoDetail(props) {
-  const key = useParams();
+  const { key } = useParams();
   const deed = props.getDeed(key);
 
   return (
@@ -12,7 +12,7 @@ export default function TodoDetail(props) {
       <h1>{deed.title}</h1>
       <p>{deed.createdAt}</p>
       {deed.desc && <p>{deed.desc}</p>}
-      {deed.image && <p><img src={deed.image} alt="image" /></p>}
+      {deed.image && <p><img src={deed.image} alt="Illustration" /></p>}
     </section>
   );
 }
