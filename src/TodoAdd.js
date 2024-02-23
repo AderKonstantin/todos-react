@@ -1,8 +1,10 @@
 import { Component } from "react";
+import { Navigate } from 'react-router-dom';
 
 export default class TodoAdd extends Component {
   constructor(props) {
     super(props);
+    this.state = { redirect: false };
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -49,44 +51,48 @@ export default class TodoAdd extends Component {
     this.props.add(newDeed);
     this.clearFormData();
     event.target.reset();
+    this.setState((state) => ({ redirect: true }));
   }
 
   render() {
-    return (
-      <section>
-        <h1>Create new task</h1>
-        <form onSubmit={this.handleFormSubmit}>
-          <div className="field">
-            <label className="label">Title</label>
-            <div className="control">
-              <input className="input" onChange={this.handleTitleChange} />
-            </div>
-          </div>
-          <div className="field">
-            <label className="field">Note</label>
+    if (this.state.redirect) {
+      return <Navigate to='/' />
+    } else
+      return (
+        <section>
+          <h1>Create new task</h1>
+          <form onSubmit={this.handleFormSubmit}>
             <div className="field">
-              <textarea className="textarea" onChange={this.handleDescChange} />
+              <label className="label">Title</label>
+              <div className="control">
+                <input className="input" onChange={this.handleTitleChange} />
+              </div>
             </div>
-          </div>
-          <div className="field">
-            <div className="file">
-              <label className="file-label">
-                <input className="file-input" type="file" onChange={this.handleImageChange} />
-                <span className="file-cta">Choose a file...</span>
-              </label>
+            <div className="field">
+              <label className="field">Note</label>
+              <div className="field">
+                <textarea className="textarea" onChange={this.handleDescChange} />
+              </div>
             </div>
-          </div>
-          <div className="field is-grouped is-grouped-right">
-            <div className="control">
-              <input type="reset" className="button is-link is-light" value="Reset" />
+            <div className="field">
+              <div className="file">
+                <label className="file-label">
+                  <input className="file-input" type="file" onChange={this.handleImageChange} />
+                  <span className="file-cta">Choose a file...</span>
+                </label>
+              </div>
             </div>
-            <div className="control">
-              <input type="submit" className="button is-primary" value="Submit" />
+            <div className="field is-grouped is-grouped-right">
+              <div className="control">
+                <input type="reset" className="button is-link is-light" value="Reset" />
+              </div>
+              <div className="control">
+                <input type="submit" className="button is-primary" value="Submit" />
+              </div>
             </div>
-          </div>
-        </form>
-      </section>
-    );
+          </form>
+        </section>
+      );
   }
 }
 
