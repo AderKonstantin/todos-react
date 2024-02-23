@@ -5,6 +5,8 @@ import TodoDetail from './TodoDetail';
 import { HashRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Register from "./Register";
+import Login from "./Login";
+import Logout from "./Logout";
 import firebaseApp from "./firebase";
 
 const date1 = new Date(2021, 7, 19, 14, 5);
@@ -102,11 +104,23 @@ export default class App extends Component {
                 </NavLink>
               )}
               {!this.state.currentUser && (
+                <NavLink to="/login" className={({ isActive }) => 'navbar-item' + (isActive ? ' is-active' : '')}>
+                  Login
+                </NavLink>
+              )}
+              {!this.state.currentUser && (
                 <NavLink to="/register" className={({ isActive }) => 'navbar-item' + (isActive ? ' is-active' : '')}>
                   Register
                 </NavLink>
               )}
             </div>
+            {this.state.currentUser && (
+              <div className="navbar-end">
+                <NavLink to="/logout" className={({ isActive }) => 'navbar-item' + (isActive ? ' is-active' : '')}>
+                  Logout
+                </NavLink>
+              </div>
+            )}
           </div>
         </nav>
         <main className="context px-6 mt-6">
@@ -121,6 +135,12 @@ export default class App extends Component {
               <TodoDetail getDeed={this.getDeed} />
             } />
             <Route path="/register" element={
+              <Register currentUser={this.state.currentUser} />
+            } />
+            <Route path="/logout" element={
+              <Register currentUser={this.state.currentUser} />
+            } />
+            <Route path="/login" element={
               <Register currentUser={this.state.currentUser} />
             } />
           </Routes>
