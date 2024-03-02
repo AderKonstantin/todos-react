@@ -1,66 +1,72 @@
-import { Component } from "react";
-import { Navigate } from "react-router-dom";
-import { login } from "./api";
+import { Component } from 'react';
+import { Navigate } from 'react-router-dom';
+import { login } from './api';
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.handleEmailSubmit = this.handleEmailSubmit.bind(this);
-    this.handlePasswordSubmit = this.handlePasswordSubmit.bind(this);
+  constructor() {
+    super();
+    this.handleEmailBlur = this.handleEmailBlur.bind(this);
+    this.handlePasswordBlur = this.handlePasswordBlur.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.clearFormData();
   }
 
   clearFormData() {
     this.formData = {
-      email: "",
-      password: ""
+      email: '',
+      password: ''
     };
   }
 
-  handleEmailSubmit(event) {
-    this.formData.email = event.target.value;
+  handleEmailBlur(evt) {
+    this.formData.email = evt.target.value;
   }
 
-  handlePasswordSubmit(event) {
-    this.formData.password = event.target.value;
+  handlePasswordBlur(evt) {
+    this.formData.password = evt.target.value;
   }
 
-  async handleFormSubmit(event) {
-    event.preventDefault();
-    const result = await login(this.formData.email, this.fromData.password);
-    if (typeof result === "object") {
-      this.props.login(result);
-    }
+  async handleFormSubmit(evt) {
+    evt.preventDefault();
+    await login(this.formData.email,
+      this.formData.password);
   }
 
   render() {
-    if (this.props.currentUser) {
+    if (this.props.currentUser)
       return <Navigate to="/" replace />;
-    }
-    return (
-      <section>
-        <h1>Registration</h1>
-        <form onSubmit={this.handleFormSubmit}>
-          <div className="field">
-            <label className="label">Email</label>
-            <div className="control">
-              <input type="email" onChange={this.handleEmailSubmit} />
+    else
+      return (
+        <section>
+          <h1>Вход</h1>
+          <form onSubmit={this.handleFormSubmit}>
+            <div className="field">
+              <label className="label">Адрес электронной почты</label>
+              <div className="control">
+                <input type="email" className="input"
+                  onBlur={this.handleEmailBlur} />
+              </div>
             </div>
-          </div>
-          <div className="field">
-            <label className="label">Password</label>
-            <div className="control">
-              <input type="password" onChange={this.handlePasswordSubmit} />
+            <div className="field">
+              <label className="label">Пароль</label>
+              <div className="control">
+                <input type="password" className="input"
+                  onBlur={this.handlePasswordBlur} />
+              </div>
             </div>
-          </div>
-          <div className="field is-grouped is-grouped-right">
-            <div className="control">
-              <input className="button is-primary" type="submit" value="Submit" />
+            <div className="field is-grouped is-grouped-right">
+              <div className="control">
+                <input type="reset"
+                  className="button is-link is-light"
+                  value="Сброс" />
+              </div>
+              <div className="control">
+                <input type="submit" className="button is-primary"
+                  value="Войти" />
+              </div>
             </div>
-          </div>
-        </form>
-      </section>
-    );
+          </form>
+        </section>
+      );
   }
 }
